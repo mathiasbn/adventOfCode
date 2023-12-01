@@ -1,49 +1,48 @@
 package day1
 
-import kotlin.test.Test
-import kotlin.test.assertEquals
+import io.kotest.core.spec.style.FunSpec
+import io.kotest.matchers.shouldBe
+import util.trimAndSplit
 
-class Day1 {
-    @Test
-    fun testPartOneExampel() {
-        assertEquals(142, solvePart1(
+class Day1 : FunSpec({
+    test("partOneExample") {
+        solvePart1(
             """
-        1abc2
-        pqr3stu8vwx
-        a1b2c3d4e5f
-        treb7uchet
-    """.trimIndent().split("\n")
-        ))
+                1abc2
+                pqr3stu8vwx
+                a1b2c3d4e5f
+                treb7uchet
+            """.trimAndSplit()
+        ) shouldBe 142
     }
 
-    @Test
-    fun resolveSpelledOutDigits(){
-        assertEquals("1", findDigit("1"){first()})
-        assertEquals("1", findDigit("aaa1"){first()})
-        assertEquals("1", findDigit("one2"){first()})
-        assertEquals("2", findDigit("two1"){first()})
-        assertEquals("3", findDigit("three1"){first()})
-        assertEquals("4", findDigit("four1"){first()})
-        assertEquals("5", findDigit("five1"){first()})
-        assertEquals("6", findDigit("six1"){first()})
-        assertEquals("7", findDigit("seven1"){first()})
-        assertEquals("8", findDigit("eight1"){first()})
-        assertEquals("9", findDigit("nine1"){first()})
+    test("resolveSpelledOutDigits") {
+        findDigits("1").first() shouldBe "1"
+        findDigits("aaa1").first() shouldBe "1"
+        findDigits("one2").first() shouldBe "1"
+        findDigits("two1").first() shouldBe "2"
+        findDigits("three1").first() shouldBe "3"
+        findDigits("four1").first() shouldBe "4"
+        findDigits("five1").first() shouldBe "5"
+        findDigits("six1").first() shouldBe "6"
+        findDigits("seven1").first() shouldBe "7"
+        findDigits("eight1").first() shouldBe "8"
+        findDigits("nine1").first() shouldBe "9"
 
-        assertEquals("2", findDigit("3eightwoasdasd"){last()})
+        findDigits("3eightwoasdasd").last() shouldBe "2"
     }
-    @Test
-    fun testPartTwoExampel() {
-        assertEquals(281, solvePart2(
+
+    test("PartTwoExample") {
+        solvePart2(
             """
-two1nine
-eightwothree
-abcone2threexyz
-xtwone3four
-4nineeightseven2
-zoneight234
-7pqrstsixteen
-    """.trimIndent().split("\n").filter { it.isNotEmpty() }
-        ))
+                two1nine
+                eightwothree
+                abcone2threexyz
+                xtwone3four
+                4nineeightseven2
+                zoneight234
+                7pqrstsixteen
+            """.trimAndSplit()
+        ) shouldBe 281
     }
-}
+})

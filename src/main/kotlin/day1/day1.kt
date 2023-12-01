@@ -1,6 +1,6 @@
 package day1
 
-import kotlin.streams.toList
+import util.readInputLines
 
 fun solvePart1(input: List<String>): Int =
     input.map { it.find { it.isDigit() }!! + it.reversed().find { it.isDigit() }!!.toString() }
@@ -9,17 +9,16 @@ fun solvePart1(input: List<String>): Int =
 
 fun solvePart2(input: List<String>): Int =
     input
-        .map { findDigit(it) { first() } + findDigit(it) { last() } }
+        .map { findDigits(it).first() + findDigits(it).last() }
         .also { println(it) }
         .map { it.toInt() }
         .sum()
 
-fun findDigit(search: String, selector: List<String>.() -> String) =
+fun findDigits(search: String) =
     "(?<result>one|two|three|four|five|six|seven|eight|nine|[0-9])".toRegex()
-        .let { regex -> search.indices.map {start -> regex.matchAt(search,start)  } }
+        .let { regex -> search.indices.map { start -> regex.matchAt(search, start) } }
         .filterNotNull()
         .map { it.groups["result"]!!.value }
-        .also { println(it) }
         .map {
             when (it) {
                 "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" -> it
@@ -37,8 +36,6 @@ fun findDigit(search: String, selector: List<String>.() -> String) =
                 }
             }
         }
-        .selector()
-        .also { println("Selected $it") }
 
 
 fun main() {
@@ -54,7 +51,3 @@ fun main() {
 
 
 }
-
-fun readInputLines(inputName: String): List<String> =
-    object {}.javaClass.getResourceAsStream("/$inputName.txt")?.bufferedReader()!!.lines().filter { it.isNotEmpty() }
-        .toList()
