@@ -3,7 +3,7 @@ package day1
 import util.readInputLines
 
 fun solvePart1(input: List<String>): Int =
-    input.map { it.find { it.isDigit() }!! + it.reversed().find { it.isDigit() }!!.toString() }
+    input.map { it.find { it.isDigit() }!! + it.findLast { it.isDigit() }!!.toString() }
         .map { it.toInt() }
         .sum()
 
