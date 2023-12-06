@@ -8,3 +8,5 @@ fun readInputLines(inputName: String, allowEmptyLines:Boolean=false): List<Strin
 
 fun String.trimSplitRemoveEmptyLines() = this.trimIndent().split("\n").filter { it.isNotEmpty() }
 fun String.trimSplit() = this.trimIndent().split("\n")
+fun String.parseIntList() = this.split(" ").filter(String::isNotBlank).map(String::toInt)
+fun String.parseLongList() = this.split(" ").filter(String::isNotBlank).map(String::toLong)

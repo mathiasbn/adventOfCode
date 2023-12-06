@@ -101,9 +101,9 @@ class Day5 : FunSpec({
             CategoryConversion(listOf(DestSourceRange(7, 6, 1))),
             CategoryConversion(listOf(DestSourceRange(8, 7, 1)))
         )
-        almanac.seedToLocation(0L..0) shouldBe 0
-        almanac.seedToLocation(1L..1) shouldBe 8
-        almanac.seedLocations() shouldBe mapOf(Pair(0, 0), Pair(1, 8))
+        almanac.seedToLocation(0L..0).single() shouldBe 0L..0
+        almanac.seedToLocation(1L..1).single() shouldBe 8L..8
+        almanac.seedLocations() shouldBe mapOf(Pair(0L..0, listOf(0L..0)), Pair(1L..1, listOf(8L..8)))
     }
 
     test("PartOneExample") {

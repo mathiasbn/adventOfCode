@@ -9,7 +9,7 @@ fun solvePart1(input: List<String>): Long {
 fun solvePart2(input: List<String>): Long {
     return parse(input) {
         this.windowed(2, 2).map { (from, length) -> from..<from + length }
-    }.seedLocations().values.flatten().minOf{it.first}
+    }.seedLocations().values.flatten().minOf { it.first }
 }
 
 
@@ -48,12 +48,12 @@ data class Almanac(
 
     fun seedToLocation(seed: LongRange): List<LongRange> {
         val soil = seedToSoil[listOf(seed)]
-        val fertilizer = soilToFertilizer.get(soil)
-        val water = fertilizerToWater.get(fertilizer)
-        val light = waterToLight.get(water)
-        val temperature = lightToTemperature.get(light)
-        val humidity = temperatureToHumidity.get(temperature)
-        return humidityToLocation.get(humidity)
+        val fertilizer = soilToFertilizer[soil]
+        val water = fertilizerToWater[fertilizer]
+        val light = waterToLight[water]
+        val temperature = lightToTemperature[light]
+        val humidity = temperatureToHumidity[temperature]
+        return humidityToLocation[humidity]
     }
 
     fun seedLocations() = seeds.associateWith(::seedToLocation)
@@ -61,11 +61,16 @@ data class Almanac(
 }
 
 data class DestSourceRange(val dest: Long, val source: Long, val range: Long) {
-    val lastSource = source+range-1
+    val lastSource = source + range - 1
 
     operator fun contains(source: Long): Boolean = source in this.source..<this.source + range
     operator fun get(i: Long): Long {
         if (i in this) return dest + (i - source)
+        throw Exception("Out of range: $i !in $this")
+    }
+
+    operator fun get(i: LongRange): LongRange {
+        if (i.first in this && i.last in this) return this[i.first]..this[i.last]
         throw Exception("Out of range: $i !in $this")
     }
 }
@@ -74,17 +79,27 @@ class CategoryConversion(val ranges: List<DestSourceRange>) {
     operator fun get(single: Long) = get(listOf(single..single)).first().first
     operator fun get(sourceRanges: List<LongRange>): List<LongRange> {
         return sourceRanges.flatMap { sourceRange ->
-            ranges.fold(mutableListOf<LongRange>()) { acc, conversion ->
-                if (sourceRange.first in conversion && sourceRange.last in conversion)
-                    acc.add(sourceRange)
-                else if (sourceRange.first in conversion) {
-                    acc.add(sourceRange.first..conversion.lastSource)
-//                    acc.add(conversion.)
-                }
-                else if (sourceRange.last in conversion)
-                    conversion[conversion.source]..conversion[sourceRange.last]
-                acc
-            }
+            ranges.fold(
+                Pair(
+                    mutableListOf<LongRange>(),
+                    mutableListOf(sourceRange)
+                )
+            ) { (matched, notMatched), range ->
+                val newNotMatched = notMatched.mapNotNull { noMatch ->
+                    if (noMatch.first in range && noMatch.last in range) {
+                        matched.add(range[noMatch])
+                        null
+                    } else if (noMatch.first in range) {
+                        matched.add(range[noMatch.first..range.lastSource])
+                        range.lastSource + 1..noMatch.last
+                    } else if (noMatch.last in range) {
+                        matched.add(range[range.source..noMatch.last])
+                        noMatch.first..range.source
+                    } else
+                        noMatch
+                }.toMutableList()
+                Pair(matched, newNotMatched)
+            }.let { it.first + it.second }
         }
     }
 
