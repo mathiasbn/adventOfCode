@@ -2,7 +2,7 @@ package day1
 
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
-import util.trimAndSplit
+import util.trimSplitRemoveEmptyLines
 
 class Day1 : FunSpec({
     test("partOneExample") {
@@ -12,7 +12,7 @@ class Day1 : FunSpec({
                 pqr3stu8vwx
                 a1b2c3d4e5f
                 treb7uchet
-            """.trimAndSplit()
+            """.trimSplitRemoveEmptyLines()
         ) shouldBe 142
     }
 
@@ -42,7 +42,7 @@ class Day1 : FunSpec({
                 4nineeightseven2
                 zoneight234
                 7pqrstsixteen
-            """.trimAndSplit()
+            """.trimSplitRemoveEmptyLines()
         ) shouldBe 281
     }
 })

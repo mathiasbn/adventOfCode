@@ -3,7 +3,7 @@ package day3
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.shouldBe
-import util.trimAndSplit
+import util.trimSplitRemoveEmptyLines
 
 class Day3 : FunSpec({
 
@@ -40,7 +40,7 @@ class Day3 : FunSpec({
             /....
             ..*..
             ...._
-        """.trimAndSplit()
+        """.trimSplitRemoveEmptyLines()
         ) shouldBe setOf(
             Point(0, 0), Point(2, 1), Point(4, 2)
         )
@@ -69,7 +69,7 @@ class Day3 : FunSpec({
 ......755.
 ..._.*....
 .664.598..                
-            """.trimAndSplit()
+            """.trimSplitRemoveEmptyLines()
         ) shouldBe 4361
     }
 
@@ -86,7 +86,7 @@ class Day3 : FunSpec({
 ......755.
 ...-.*....
 .664.598..
-            """.trimAndSplit()
+            """.trimSplitRemoveEmptyLines()
         ) shouldBe 467835
     }
 })
