@@ -93,7 +93,7 @@ fun buildCave(input: String, implicitFloor: Boolean = false): Cave {
 @OptIn(ExperimentalTime::class)
 fun main() {
     measureTime {
-        val cave = buildCave(readResourceFile("day14_input.txt"))
+        val cave = buildCave(readResourceFile("_2022/day14_input.txt"))
         var sandDropped = 0
         while (cave.dropSand() != null) sandDropped++
         println("Sand drops before sand falls out of cave: " + sandDropped)
@@ -101,7 +101,7 @@ fun main() {
     }.let { println("Part 1 finished in $it") }
 
 
-    val cave2 = buildCave(readResourceFile("day14_input.txt"), implicitFloor = true)
+    val cave2 = buildCave(readResourceFile("_2022/day14_input.txt"), implicitFloor = true)
     var sandDropped2 = 0
     var latest: Point?
     while (cave2.dropSand().also { sandDropped2++; latest = it } != Point(500, 0)) {

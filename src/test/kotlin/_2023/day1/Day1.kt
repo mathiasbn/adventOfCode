@@ -6,7 +6,7 @@ import util.trimSplitRemoveEmptyLines
 
 class Day1 : FunSpec({
     test("partOneExample") {
-        _2024.day1.solvePart1(
+        solvePart1(
             """
                 1abc2
                 pqr3stu8vwx
@@ -33,7 +33,7 @@ class Day1 : FunSpec({
     }
 
     test("PartTwoExample") {
-        _2024.day1.solvePart2(
+        solvePart2(
             """
                 two1nine
                 eightwothree
