@@ -23,6 +23,46 @@ data class Point(val x: Int, val y: Int) {
         Direction.L -> Point(x - 1, y)
         Direction.UL -> Point(x - 1, y - 1)
     }
+
+    infix fun undirectedLineTo(point: Point) =
+        listOf(this, point)
+            .sortedWith(compareBy<Point> { it.x }.thenBy { it.y })
+            .let { (from, to) -> UndirectedLine(from,to) }
+
+    fun reverseVector() = Point(-x,-y)
+
+    fun step(direction: Point) = Point(x+direction.x,y+direction.y)
+}
+
+data class Line(val from: Point, val to: Point) : Iterable<Point> {
+    val horizontal get() = from.x != to.x
+
+    fun toNormalForm() =
+        if (horizontal) Line(Point(Integer.min(from.x, to.x), from.y), Point(Integer.max(from.x, to.x), from.y))
+        else Line(Point(from.x, Integer.min(from.y, to.y)), Point(from.x, Integer.max(from.y, to.y)))
+
+    override fun iterator(): Iterator<Point> =
+        (if (horizontal) (from.x..to.x).map { Point(it, from.y) }
+        else (from.y..to.y).map { Point(from.x, it) }).iterator()
+}
+
+class UndirectedLine(val point1: Point, val point2: Point) {
+    override fun equals(other: Any?): Boolean {
+        if (other !is UndirectedLine) return false
+        return setOf(point1,point2).equals(setOf(other.point1, other.point2))
+    }
+
+    override fun hashCode(): Int {
+        return setOf(point1,point2).hashCode()
+    }
+
+    override fun toString(): String {
+        return "$point1→$point2"
+    }
+
+    fun vector(): Point {
+        return Point(point2.x-point1.x, point2.y-point1.y)
+    }
 }
 
 enum class Direction {

@@ -24,11 +24,6 @@ fun possibleOperatorPermutations(numOfOperators: Int, includeConcat: Boolean): S
     return cartesianProduct(sets)
 }
 
-fun <T> cartesianProduct(sets: List<List<T>>) =
-    sets.fold(listOf(listOf<T>())) { acc, set ->
-        acc.flatMap { list -> set.map { element -> list + element } }
-    }.toSet()
-
 fun applyOperatorsToOperands(operator: List<Operator>, operands: List<Long>) = operands
     .reduceIndexed { index: Int, acc: Long, value: Long ->
         when (operator[index - 1]) {

@@ -1,4 +1,8 @@
 
+import util.Direction
+import util.Direction.*
+import util.Line
+import util.Point
 import java.util.*
 import kotlin.time.ExperimentalTime
 import kotlin.time.measureTime
@@ -33,10 +37,10 @@ data class Cave(val walls: List<Line>, val implicitFloor: Boolean = false) {
                     throw Exception()
                 }
             }
-        if (occupiedSpaceDownFrom(streightDown.downLeft())?.contains(streightDown.downLeft().y) != true)
-            return dropSandFrom(streightDown.downLeft())
-        else if (occupiedSpaceDownFrom(streightDown.downRight())?.contains(streightDown.downRight().y) != true)
-            return dropSandFrom(streightDown.downRight())
+        if (occupiedSpaceDownFrom(streightDown.step(DL))?.contains(streightDown.step(DL).y) != true)
+            return dropSandFrom(streightDown.step(DL))
+        else if (occupiedSpaceDownFrom(streightDown.step(DR))?.contains(streightDown.step(DR).y) != true)
+            return dropSandFrom(streightDown.step(DR))
         return streightDown
     }
 
@@ -66,21 +70,6 @@ data class Cave(val walls: List<Line>, val implicitFloor: Boolean = false) {
         }
     }
 
-}
-
-fun Point.downLeft() = Point(x - 1, y + 1)
-fun Point.downRight() = Point(x + 1, y + 1)
-
-data class Line(val from: Point, val to: Point) : Iterable<Point> {
-    val horizontal get() = from.x != to.x
-
-    fun toNormalForm() =
-        if (horizontal) Line(Point(Integer.min(from.x, to.x), from.y), Point(Integer.max(from.x, to.x), from.y))
-        else Line(Point(from.x, Integer.min(from.y, to.y)), Point(from.x, Integer.max(from.y, to.y)))
-
-    override fun iterator(): Iterator<Point> =
-        (if (horizontal) (from.x..to.x).map { Point(it, from.y) }
-        else (from.y..to.y).map { Point(from.x, it) }).iterator()
 }
 
 fun buildCave(input: String, implicitFloor: Boolean = false): Cave {

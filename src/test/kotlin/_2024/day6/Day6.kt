@@ -56,6 +56,38 @@ class Day6 : FunSpec({
         ) shouldBe 41
     }
 
+    test("Don't make cycles with obstacles out of the grid") {
+        solvePart2(
+            """
+                #..
+                ..#
+                ^#.
+            """.trimIndent().trimSplitRemoveEmptyLines()
+        ) shouldBe 0
+    }
+
+    test("Back and forth loop") {
+        solvePart2(
+            """
+                .#..
+                #..#
+                .^..
+            """.trimIndent().trimSplitRemoveEmptyLines()
+        ) shouldBe 1
+    }
+
+    test("Hmm") {
+        solvePart2(
+            """
+                .#...
+                ....#
+                ..#..
+                #...#
+                ..^..
+            """.trimIndent().trimSplitRemoveEmptyLines()
+        ) shouldBe 1
+    }
+
     test("PartTwoExample") {
         solvePart2(
             """

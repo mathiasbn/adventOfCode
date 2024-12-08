@@ -1,3 +1,5 @@
+import util.Point
+
 data class Surrounding<T>(val up: T, val down: T, val left: T, val right: T)
 
 fun parseForest(input: String): List<List<Int>> =

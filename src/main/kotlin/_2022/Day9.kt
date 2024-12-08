@@ -1,6 +1,6 @@
 package moinz.day9
 
-import Point
+import util.Point
 import moinz.day9.Direction.*
 import readResourceFile
 import kotlin.math.abs
