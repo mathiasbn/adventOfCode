@@ -1,7 +1,5 @@
-package _2025.day4
+package _2025.day5
 
-import _2025.day5.solvePart1
-import _2025.day5.solvePart2
 import util.readInputLines
 
 fun solvePart1(input: List<String>): Int = 0
