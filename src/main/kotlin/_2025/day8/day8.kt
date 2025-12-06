@@ -1,4 +1,4 @@
-package _2025.day7
+package _2025.day8
 
 import util.readInputLines
 
@@ -9,12 +9,12 @@ fun solvePart2(input: List<String>): Int = 0
 
 fun main() {
     solvePart1(
-        readInputLines("_2025/day7_part1")
+        readInputLines("_2025/day8_part1")
     )
         .also { println("Part one result: $it") }
 
     solvePart2(
-        readInputLines("_2025/day7_part1")
+        readInputLines("_2025/day8_part1")
     )
         .also { println("Part two result: $it") }
 }
