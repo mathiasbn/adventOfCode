@@ -27,11 +27,11 @@ data class Point(val x: Int, val y: Int) {
     infix fun undirectedLineTo(point: Point) =
         listOf(this, point)
             .sortedWith(compareBy<Point> { it.x }.thenBy { it.y })
-            .let { (from, to) -> UndirectedLine(from,to) }
+            .let { (from, to) -> UndirectedLine(from, to) }
 
-    fun reverseVector() = Point(-x,-y)
+    fun reverseVector() = Point(-x, -y)
 
-    fun step(direction: Point) = Point(x+direction.x,y+direction.y)
+    fun step(direction: Point) = Point(x + direction.x, y + direction.y)
 }
 
 data class Line(val from: Point, val to: Point) : Iterable<Point> {
@@ -49,11 +49,11 @@ data class Line(val from: Point, val to: Point) : Iterable<Point> {
 class UndirectedLine(val point1: Point, val point2: Point) {
     override fun equals(other: Any?): Boolean {
         if (other !is UndirectedLine) return false
-        return setOf(point1,point2).equals(setOf(other.point1, other.point2))
+        return setOf(point1, point2).equals(setOf(other.point1, other.point2))
     }
 
     override fun hashCode(): Int {
-        return setOf(point1,point2).hashCode()
+        return setOf(point1, point2).hashCode()
     }
 
     override fun toString(): String {
@@ -61,7 +61,7 @@ class UndirectedLine(val point1: Point, val point2: Point) {
     }
 
     fun vector(): Point {
-        return Point(point2.x-point1.x, point2.y-point1.y)
+        return Point(point2.x - point1.x, point2.y - point1.y)
     }
 }
 
@@ -96,16 +96,20 @@ class Grid(rows: List<String>) {
         rows.forEachIndexed { i, row ->
             row.forEachIndexed { j, cell ->
                 yield(
-                    GridPoint(Point(j, i), cell.toString())
+                    GridPoint(Point(j, i), cell)
                 )
             }
         }
     }
 
-    operator fun get(point: Point): String? = rows.getOrNull(point.y)?.getOrNull(point.x)?.toString()
+    fun valueOf(point: Point): String? = rows.getOrNull(point.y)?.getOrNull(point.x)
+    operator fun get(point: Point) = if (contains(point)) GridPoint(point, rows[point.y][point.x]) else null
     operator fun set(point: Point, value: String) {
         rows[point.y][point.x] = value
     }
+
+    fun allNeighboursOf(point: Point): Sequence<GridPoint> =
+        Direction.entries.toTypedArray().asSequence().map { point.step(it) }.mapNotNull(::get)
 
     fun print() {
         rows.forEach { row -> println(row.joinToString(separator = "")) }

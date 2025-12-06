@@ -17,19 +17,19 @@ fun walkSequence(grid: Grid, turnAt: Int? = null): Sequence<DirectedPoint> = seq
     var i = 0
     while (true) {
         if (turnAt == i && currentPoint.step().point in grid) {
-            if (grid[currentPoint.step().point] == "#")
+            if (grid.valueOf(currentPoint.step().point) == "#")
                 grid[currentPoint.turnRight().step().point] = "O"
             else
                 grid[currentPoint.step().point] = "O"
         }
-        while (grid[currentPoint.step().point] in listOf("#", "O")) currentPoint = currentPoint.turnRight()
+        while (grid.valueOf(currentPoint.step().point) in listOf("#", "O")) currentPoint = currentPoint.turnRight()
         currentPoint = currentPoint.step()
         if (currentPoint.point !in grid) break
-        if (grid[currentPoint.point] in listOf(currentPoint.direction.presentation())) throw CycleDetected(
+        if (grid.valueOf(currentPoint.point) in listOf(currentPoint.direction.presentation())) throw CycleDetected(
             "Cycle at ${i}"
         )
-        if (grid[currentPoint.point] in listOf("↑", "→", "↓", "←")) grid[currentPoint.point] = "X"
-        if (grid[currentPoint.point] in listOf(".", "^")) {
+        if (grid.valueOf(currentPoint.point) in listOf("↑", "→", "↓", "←")) grid[currentPoint.point] = "X"
+        if (grid.valueOf(currentPoint.point) in listOf(".", "^")) {
             grid[currentPoint.point] = currentPoint.direction.presentation()
             yield(currentPoint)
         }

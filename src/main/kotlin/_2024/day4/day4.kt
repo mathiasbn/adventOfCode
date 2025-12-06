@@ -16,7 +16,7 @@ fun numOfXmasStartingFrom(xPoint: Point, grid: Grid): Int =
             listOf("M", "A", "S")
                 .fold(Pair(xPoint, true)) { (currentPoint, valid), letter ->
                     currentPoint.step(dir)
-                        ?.let { newPoint -> Pair(newPoint, valid && grid[newPoint] == letter) }
+                        ?.let { newPoint -> Pair(newPoint, valid && grid.valueOf(newPoint) == letter) }
                         ?: Pair(currentPoint, false)
                 }.second
         }
@@ -29,7 +29,7 @@ fun solvePart2(input: List<String>): Int {
 }
 
 fun isMAScross(point: Point, grid: Grid): Boolean {
-    fun step(direction: Direction) = point.step(direction)?.let { grid[it] }
+    fun step(direction: Direction) = point.step(direction)?.let { grid.valueOf(it) }
 
     val lf = step(Direction.UL) == "M" && step(Direction.DR) == "S" ||
             step(Direction.UL) == "S" && step(Direction.DR) == "M"
